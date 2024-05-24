@@ -5,13 +5,11 @@
     "require": {
         "php": "^8.0",
         "symfony/maker-bundle": "^1.59"
-    }
-    ,
+    },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "friendsofphp/php-cs-fixer": "^3.36"
     },
-
     "autoload": {
         "psr-4": {
             "EffectiveSloth\\CleanArchMakerBundle\\": "src/"

@@ -1,0 +1,45 @@
+{
+    "name": "effectivesloth/clean-arch-maker",
+    "description": "Symfony Maker helps you create classes for CLEAN architecture",
+    "type": "symfony-bundle",
+    "version": "0.0.0",
+    "require": {
+        "php": "^8.0",
+        "symfony/maker-bundle": "^1.59"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^3.36",
+        "phpstan/phpstan": "^1.11",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan-symfony": "^1.4",
+        "ekino/phpstan-banned-code": "^1.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "EffectiveSloth\\CleanArchMakerBundle\\": "src/"
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EffectiveSloth\\CleanArchMakerBundle\\Tests\\": "tests/"
+        }
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "MickaelCa",
+            "homepage": "https://github.com/MickaelCa"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    }
+}

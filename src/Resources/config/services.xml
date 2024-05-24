@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="effectivesloth_clean_arch_maker.maker.use_case_maker"
+                 class="EffectiveSloth\CleanArchMakerBundle\Maker\UseCaseMaker"
+                 public="true"
+                 autowire="true">
+            <tag>maker.command</tag>
+        </service>
+        <service id="EffectiveSloth\CleanArchMakerBundle\Maker\UseCaseMaker"
+                 alias="effectivesloth_clean_arch_maker.maker.use_case_maker"
+                 public="false">
+        </service>
+        <service id="effectivesloth_clean_arch_maker.maker.gateway_maker"
+                 class="EffectiveSloth\CleanArchMakerBundle\Maker\GatewayMaker"
+                 public="true"
+                 autowire="true">
+            <tag>maker.command</tag>
+        </service>
+        <service id="EffectiveSloth\CleanArchMakerBundle\Maker\GatewayMaker"
+                 alias="effectivesloth_clean_arch_maker.maker.gateway_maker"
+                 public="false">
+        </service>
+    </services>
+</container>

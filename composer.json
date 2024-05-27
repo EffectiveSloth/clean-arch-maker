@@ -2,7 +2,7 @@
     "name": "effectivesloth/clean-arch-maker",
     "description": "Symfony Maker helps you create classes for CLEAN architecture",
     "type": "symfony-bundle",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "require": {
         "php": "^8.0",
         "symfony/maker-bundle": "^1.59"

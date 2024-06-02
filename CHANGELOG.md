@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/EffectiveSloth/clean-arch-maker/compare/v1.0.0...v1.1.0) (2024-06-02)
+
+
+### Features
+
+* add TODO comment in usecase execute method ([487cda4](https://github.com/EffectiveSloth/clean-arch-maker/commit/487cda479256adc8f923d6cf4cbf9473259ec1c9))
+
 ## 1.0.0 (2024-05-27)
 
 

@@ -24,5 +24,15 @@
                  alias="effectivesloth_clean_arch_maker.maker.gateway_maker"
                  public="false">
         </service>
+        <service id="effectivesloth_clean_arch_maker.maker.service_maker"
+                 class="EffectiveSloth\CleanArchMakerBundle\Maker\ServiceMaker"
+                 public="true"
+                 autowire="true">
+            <tag>maker.command</tag>
+        </service>
+        <service id="EffectiveSloth\CleanArchMakerBundle\Maker\ServiceMaker"
+                 alias="effectivesloth_clean_arch_maker.maker.service_maker"
+                 public="false">
+        </service>
     </services>
 </container>

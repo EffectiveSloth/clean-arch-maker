@@ -26,7 +26,7 @@ class GatewayMaker extends AbstractMaker
 
     public static function getCommandDescription(): string
     {
-        return 'Creates a new use case classes';
+        return 'Creates a new gateway class & interface';
     }
 
     public function configureCommand(Command $command, InputConfiguration $inputConfig): void

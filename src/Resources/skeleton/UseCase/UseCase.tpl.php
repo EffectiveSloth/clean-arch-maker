@@ -9,5 +9,6 @@ class <?php echo $use_case_class_name; ?> implements <?php echo $use_case_interf
 {
     public function execute(<?php echo $request_class_name; ?> $request, <?php echo $presenter_interface_name; ?> $presenter): void
     {
+        // TODO: Implement execute() method.
     }
 }

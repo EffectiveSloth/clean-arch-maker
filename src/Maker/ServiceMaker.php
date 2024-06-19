@@ -54,7 +54,7 @@ class ServiceMaker extends AbstractMaker
 
         $generator->generateClass(
             $gwInterface->getFullName(),
-            __DIR__.'/../Resources/skeleton/Gateway/ServiceInterface.tpl.php',
+            __DIR__.'/../Resources/skeleton/Service/ServiceInterface.tpl.php',
             [
                 'namespace' => $nsPort,
                 'service_interface_name' => $gwInterface->getRelativeName(),
@@ -63,7 +63,7 @@ class ServiceMaker extends AbstractMaker
 
         $generator->generateClass(
             $gwClass->getFullName(),
-            __DIR__.'/../Resources/skeleton/Gateway/Service.tpl.php',
+            __DIR__.'/../Resources/skeleton/Service/Service.tpl.php',
             [
                 'namespace' => $nsInfra,
                 'service_interface_use' => $gwInterface->getFullName(),

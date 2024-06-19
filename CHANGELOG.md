@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/EffectiveSloth/clean-arch-maker/compare/v1.2.0...v1.2.1) (2024-06-19)
+
+
+### Bug Fixes
+
+* skeleton directories missmatch ([7ab8a18](https://github.com/EffectiveSloth/clean-arch-maker/commit/7ab8a18ae8b01d16dff25760744a83c526b056a9))
+
 ## [1.2.0](https://github.com/EffectiveSloth/clean-arch-maker/compare/v1.1.0...v1.2.0) (2024-06-02)
 
 

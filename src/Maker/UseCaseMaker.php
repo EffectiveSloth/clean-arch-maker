@@ -14,6 +14,8 @@ use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 use function is_array;
 
@@ -40,6 +42,23 @@ class UseCaseMaker extends AbstractMaker
         ;
     }
 
+    private function askGeneratePresenter(ConsoleStyle $io): ?string
+    {
+        $question = new ConfirmationQuestion('Do you want to generate a presenter?', false);
+        /** @var bool $generatePresenter */
+        $generatePresenter = $io->askQuestion($question);
+
+        if (!$generatePresenter) {
+            return null;
+        }
+
+        $question = new ChoiceQuestion('Select a presenter type', ['serialize']);
+        /** @var string $presenterType */
+        $presenterType = $io->askQuestion($question);
+
+        return $presenterType;
+    }
+
     public function generate(InputInterface $input, ConsoleStyle $io, Generator $generator): void
     {
         $ucName = $input->getArgument('usecase-name');
@@ -47,19 +66,20 @@ class UseCaseMaker extends AbstractMaker
             throw new RuntimeException('Invalid argument supplied');
         }
 
-        $ns = 'Core\\Application\\UseCase\\'.$ucName;
+        $ucNs = 'Core\\Application\\UseCase\\'.$ucName;
+        $presenterNs = 'UserInterface\\Presentation\\'.$ucName.'\\Serialize';
 
-        $useCaseInterface = $generator->createClassNameDetails($ucName, $ns, 'UseCaseInterface');
-        $useCaseClass = $generator->createClassNameDetails($ucName, $ns, 'UseCase');
-        $requestClass = $generator->createClassNameDetails($ucName, $ns, 'Request');
-        $responseClass = $generator->createClassNameDetails($ucName, $ns, 'Response');
-        $presenterInterface = $generator->createClassNameDetails($ucName, $ns, 'PresenterInterface');
+        $useCaseInterface = $generator->createClassNameDetails($ucName, $ucNs, 'UseCaseInterface');
+        $useCaseClass = $generator->createClassNameDetails($ucName, $ucNs, 'UseCase');
+        $requestClass = $generator->createClassNameDetails($ucName, $ucNs, 'Request');
+        $responseClass = $generator->createClassNameDetails($ucName, $ucNs, 'Response');
+        $presenterInterface = $generator->createClassNameDetails($ucName, $ucNs, 'PresenterInterface');
 
         $generator->generateClass(
             $useCaseClass->getFullName(),
             __DIR__.'/../Resources/skeleton/UseCase/UseCase.tpl.php',
             [
-                'namespace' => $ns,
+                'namespace' => $ucNs,
                 'use_case_class_name' => $useCaseClass->getRelativeName(),
                 'use_case_interface_name' => $useCaseInterface->getRelativeName(),
                 'request_class_name' => $requestClass->getRelativeName(),
@@ -71,7 +91,7 @@ class UseCaseMaker extends AbstractMaker
             $useCaseInterface->getFullName(),
             __DIR__.'/../Resources/skeleton/UseCase/UseCaseInterface.tpl.php',
             [
-                'namespace' => $ns,
+                'namespace' => $ucNs,
                 'use_case_interface_name' => $useCaseInterface->getRelativeName(),
                 'request_class_name' => $requestClass->getRelativeName(),
                 'presenter_interface_name' => $presenterInterface->getRelativeName(),
@@ -82,7 +102,7 @@ class UseCaseMaker extends AbstractMaker
             $presenterInterface->getFullName(),
             __DIR__.'/../Resources/skeleton/UseCase/PresenterInterface.tpl.php',
             [
-                'namespace' => $ns,
+                'namespace' => $ucNs,
                 'presenter_interface_name' => $presenterInterface->getRelativeName(),
                 'response_class_name' => $responseClass->getRelativeName(),
             ]
@@ -92,7 +112,7 @@ class UseCaseMaker extends AbstractMaker
             $requestClass->getFullName(),
             __DIR__.'/../Resources/skeleton/UseCase/Request.tpl.php',
             [
-                'namespace' => $ns,
+                'namespace' => $ucNs,
                 'request_class_name' => $requestClass->getRelativeName(),
             ]
         );
@@ -101,14 +121,55 @@ class UseCaseMaker extends AbstractMaker
             $responseClass->getFullName(),
             __DIR__.'/../Resources/skeleton/UseCase/Response.tpl.php',
             [
-                'namespace' => $ns,
+                'namespace' => $ucNs,
                 'response_class_name' => $responseClass->getRelativeName(),
             ]
         );
 
+        switch ($this->askGeneratePresenter($io)) {
+            case 'serialize':
+                $serializePresenter = $generator->createClassNameDetails($ucName, $presenterNs, 'SerializePresenter');
+                $serializeView = $generator->createClassNameDetails($ucName, $presenterNs, 'SerializeView');
+                $viewModel = $generator->createClassNameDetails($ucName, $presenterNs, 'ViewModel');
+
+                $generator->generateClass(
+                    className: $serializePresenter->getFullName(),
+                    templateName: __DIR__.'/../Resources/skeleton/UseCase/SerializePresenter.tpl.php',
+                    variables: [
+                        'namespace' => $presenterNs,
+                        'presenter_interface_full_path' => $presenterInterface->getFullName(),
+                        'usecase_response_full_path' => $responseClass->getFullName(),
+                        'serialize_presenter_class_name' => $serializePresenter->getShortName(),
+                        'presenter_interface_name' => $presenterInterface->getShortName(),
+                        'view_model_class_name' => $viewModel->getShortName(),
+                        'usecase_response_class_name' => $responseClass->getShortName(),
+                    ]
+                );
+
+                $generator->generateClass(
+                    className: $serializeView->getFullName(),
+                    templateName: __DIR__.'/../Resources/skeleton/UseCase/SerializeView.tpl.php',
+                    variables: [
+                        'namespace' => $presenterNs,
+                        'serialize_view_class_name' => $serializeView->getShortName(),
+                        'view_model_class_name' => $viewModel->getShortName(),
+                    ]
+                );
+
+                $generator->generateClass(
+                    className: $viewModel->getFullName(),
+                    templateName: __DIR__.'/../Resources/skeleton/UseCase/ViewModel.tpl.php',
+                    variables: [
+                        'namespace' => $presenterNs,
+                        'view_model_class_name' => $viewModel->getShortName(),
+                    ]
+                );
+                break;
+        }
+
         $generator->writeChanges();
         $this->writeSuccessMessage($io);
-        $io->text($ns.' successfully generated');
+        $io->text($ucNs.' successfully generated');
     }
 
     public function configureDependencies(DependencyBuilder $dependencies): void

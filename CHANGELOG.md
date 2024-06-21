@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/EffectiveSloth/clean-arch-maker/compare/v1.2.1...v1.3.0) (2024-06-21)
+
+
+### Features
+
+* add serialize presenter generator ([#10](https://github.com/EffectiveSloth/clean-arch-maker/issues/10)) ([38f2ad8](https://github.com/EffectiveSloth/clean-arch-maker/commit/38f2ad86d6ca6b204daeca200d98ab8b6a133a77))
+
 ## [1.2.1](https://github.com/EffectiveSloth/clean-arch-maker/compare/v1.2.0...v1.2.1) (2024-06-19)
 
 

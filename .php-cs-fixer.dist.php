@@ -11,6 +11,7 @@ $finder = (new PhpCsFixer\Finder())
         'config/preload.php',
         'config/bundles.php',
         'tests/bootstrap.php',
+        'src/Resources/skeleton',
     ]);
 
 return (new PhpCsFixer\Config())
